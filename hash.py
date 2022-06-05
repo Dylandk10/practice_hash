@@ -6,6 +6,13 @@ min_ord = 33
 sinput = input('Enter the string to be hashed: ') #input for the hashing algo
 
 
+##########################################################
+#                                                        #
+#             ---//      K3LLY      \\---                #
+#                                                        #
+##########################################################
+
+
 #start the hash
 def hash_function():
     result = validate_input()
@@ -31,7 +38,7 @@ def hash_function():
 def mod_the_hash(new_hash):
     modded_hash = ''
     for i in range(len(new_hash)):
-        if i % 2 == 0 and ord(new_hash[i]) % 2 == 0 and ord(new_hash[1]) != max_ord -1:
+        if i % 2 == 0 and ord(new_hash[i]) % 2 == 0 and ord(new_hash[i]) != max_ord -1:
             asc_two = ord(new_hash[i]) + 2
             modded_hash += chr(asc_two)
         else:
@@ -48,7 +55,7 @@ def demodded_hash(modded_hash):
     modded_original_length = len(modded_hash) - len(secrete_key)
     modded_hash_without_salt = modded_hash[:modded_original_length]
     for i in range(len(modded_hash_without_salt)):
-        if i % 2 == 0 and ord(modded_hash_without_salt[i]) % 2 == 0 and ord(modded_hash_without_salt[i]) != max_ord -1 :
+        if i % 2 == 0 and ord(modded_hash_without_salt[i]) % 2 == 0:
             asc_two = ord(modded_hash_without_salt[i]) - 2
             unmodded_hash += chr(asc_two)
         else:
