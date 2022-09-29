@@ -3,34 +3,23 @@ shift_val = 13
 max_ord = 125
 min_ord = 32
 
-sinput = input('Enter the string to be hashed: ') #input for the hashing algo
-
-
-##########################################################
-#                                                        #
-#             ---//      K3LLY      \\---                #
-#                                                        #
-##########################################################
 
 
 #start the hash
-def hash_function():
-    result = validate_input()
+def hash_function(text):
     hashString = ''
     new_hash = ''
-    input_with_salt = sinput + secrete_key
-    if result:
-        for letter in input_with_salt:
-            hold = ord(letter)
-            if hold + shift_val >= max_ord:
-                remainder = (hold+shift_val) - max_ord
-                hashString += chr(min_ord + remainder)
-            else:
-                hashString+= chr(hold + shift_val)
-        new_hash = hashString
-        mod_the_hash(new_hash)
-    else:
-        print('invalid input')
+    input_with_salt = text + secrete_key
+    for letter in input_with_salt:
+        hold = ord(letter)
+        if hold + shift_val >= max_ord:
+            remainder = (hold+shift_val) - max_ord
+            hashString += chr(min_ord + remainder)
+        else:
+            hashString+= chr(hold + shift_val)
+    new_hash = hashString
+    res = mod_the_hash(new_hash)
+    return res
 
 
 
@@ -43,10 +32,8 @@ def mod_the_hash(new_hash):
             modded_hash += chr(asc_two)
         else:
             modded_hash += new_hash[i]
-    print('hashed ======> ' + modded_hash)
+    return modded_hash
 
-    #start the dehash
-    demodded_hash(modded_hash)
 
 
 #demodd the modded hashed string
@@ -60,7 +47,8 @@ def demodded_hash(modded_hash):
             unmodded_hash += chr(asc_two)
         else:
             unmodded_hash += modded_hash_without_salt[i]
-    dehash_function(unmodded_hash)
+    res = dehash_function(unmodded_hash)
+    return res
 
 
 
@@ -75,17 +63,29 @@ def dehash_function(new_hash):
             #dehashed_string += chr((max_ord + min_ord) - (hold+shift_val))
         else:
             dehashed_string += chr(hold - shift_val)
-    print('dehashed ======> ' + dehashed_string)
+    return dehashed_string
 
 
 
 
-def validate_input():
-    for letter in sinput:
-        if ord(letter) < min_ord or ord(letter) > max_ord:
-            return False
-    return True
+einput = input("encrpyt or decrypt: ")
+filename = input("enter filename: ")
+encryption_name = filename.split('.')[0] + "_encrypt.txt"
+decrpyt_name = filename.split(".")[0] + "_decrypt.txt"
 
 
-print('input ======> ' + sinput)
-hash_function()
+if einput == "encrypt":
+    f = open(filename, "r")
+    text = f.read()
+    encrypted_text = hash_function(text);
+    f2 = open(encryption_name, "w")
+    f2.write(encrypted_text)
+    f2.close()
+else:
+    f = open(filename, "r")
+    text = f.read()
+    decrypted_text = demodded_hash(text);
+    f2 = open(decrpyt_name, "w")
+    f2.write(decrypted_text)
+    f2.close()
+
